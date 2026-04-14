@@ -3,110 +3,84 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TAT Compliance RCA &mdash; Findings</title>
+<title>TAT Compliance RCA</title>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
   .container { max-width: 1100px; margin: 0 auto; padding: 24px; }
   h1 { font-size: 24px; font-weight: 700; margin-bottom: 4px; }
-  .subtitle { color: #666; font-size: 14px; margin-bottom: 32px; }
-  .section { background: #fff; border-radius: 8px; padding: 24px; margin-bottom: 20px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
-  h2 { font-size: 16px; font-weight: 700; margin-bottom: 16px; color: #333; border-bottom: 2px solid #e0e0e0; padding-bottom: 8px; }
-  h3 { font-size: 14px; font-weight: 600; margin: 16px 0 8px; color: #555; }
+  .subtitle { color: #666; font-size: 14px; margin-bottom: 28px; }
+  .section { background: #fff; border-radius: 8px; padding: 22px; margin-bottom: 18px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); }
+  h2 { font-size: 16px; font-weight: 700; margin-bottom: 14px; color: #333; }
+  h2 .num-badge { display: inline-block; background: #1a1a1a; color: #fff; width: 24px; height: 24px; border-radius: 50%; text-align: center; line-height: 24px; font-size: 12px; margin-right: 8px; vertical-align: 2px; }
+  h3 { font-size: 13px; font-weight: 600; margin: 14px 0 8px; color: #555; text-transform: uppercase; letter-spacing: 0.3px; }
   p, li { font-size: 14px; }
-  ul { margin-left: 20px; margin-bottom: 12px; }
-  li { margin-bottom: 4px; }
-  table { width: 100%; border-collapse: collapse; margin: 12px 0; font-size: 13px; }
-  th { background: #f8f8f8; font-weight: 600; text-align: left; padding: 8px 10px; border-bottom: 2px solid #ddd; }
+  ul { margin-left: 20px; }
+  li { margin-bottom: 3px; }
+  table { width: 100%; border-collapse: collapse; margin: 8px 0; font-size: 13px; }
+  th { background: #f8f8f8; font-weight: 600; text-align: left; padding: 7px 10px; border-bottom: 2px solid #ddd; }
   td { padding: 6px 10px; border-bottom: 1px solid #eee; }
-  tr:hover { background: #fafafa; }
   .num { text-align: right; font-variant-numeric: tabular-nums; }
-  .red { color: #d32f2f; font-weight: 600; }
+  .red { color: #d32f2f; }
   .green { color: #2e7d32; }
   .muted { color: #888; }
-  .highlight-row { background: #fff3e0; }
-  .callout { background: #fff8e1; border-left: 4px solid #f9a825; padding: 12px 16px; margin: 16px 0; border-radius: 0 4px 4px 0; font-size: 14px; }
-  .callout-red { background: #fce4ec; border-left-color: #d32f2f; }
-  .callout-blue { background: #e3f2fd; border-left-color: #1976d2; }
-  .callout-neutral { background: #f5f5f5; border-left-color: #757575; }
+  .row-focus { background: #fff3e0; }
+  .takeaway { background: #fff8e1; border-left: 3px solid #f9a825; padding: 10px 14px; margin-top: 12px; border-radius: 0 4px 4px 0; font-size: 13px; }
+  .takeaway-blue { background: #e3f2fd; border-left-color: #1976d2; }
+  .takeaway-red { background: #fce4ec; border-left-color: #d32f2f; }
   .tag { display: inline-block; padding: 2px 8px; border-radius: 10px; font-size: 11px; font-weight: 600; }
-  .tag-orange { background: #fff3e0; color: #e65100; }
-  .tag-blue { background: #e3f2fd; color: #1565c0; }
-  .step-header { display: flex; align-items: center; gap: 10px; }
-  .step-num { background: #1a1a1a; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 13px; font-weight: 700; flex-shrink: 0; }
-  .metric-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin: 16px 0; }
-  .metric-card { background: #f8f8f8; border-radius: 6px; padding: 14px; text-align: center; }
-  .metric-value { font-size: 28px; font-weight: 700; }
-  .metric-label { font-size: 12px; color: #666; margin-top: 2px; }
-  .metric-sub { font-size: 12px; margin-top: 4px; }
-  .toc { background: #fafafa; padding: 14px 20px; border-radius: 8px; margin-bottom: 20px; font-size: 13px; }
-  .toc a { color: #1976d2; text-decoration: none; margin-right: 16px; }
+  .tag-px { background: #fff3e0; color: #e65100; }
+  .tag-cx { background: #e3f2fd; color: #1565c0; }
+  .kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 14px 0; }
+  .kpi { background: #f8f8f8; border-radius: 6px; padding: 12px; text-align: center; }
+  .kpi .v { font-size: 26px; font-weight: 700; }
+  .kpi .l { font-size: 12px; color: #666; margin-top: 2px; }
+  .toc { background: #fafafa; padding: 12px 18px; border-radius: 8px; margin-bottom: 18px; font-size: 12px; }
+  .toc a { color: #1976d2; text-decoration: none; margin-right: 14px; }
   .toc a:hover { text-decoration: underline; }
-  .tree-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 12px; }
-  .tree-card { border: 1px solid #e0e0e0; border-radius: 6px; padding: 16px; }
-  .tree-card.partner { border-left: 5px solid #f57c00; background: #fffbf5; }
-  .tree-card.wiom { border-left: 5px solid #1976d2; background: #f5f9ff; }
-  .tree-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 8px; }
-  .note { font-size: 12px; color: #666; font-style: italic; margin-top: 6px; }
-  .pos { color: #2e7d32; font-weight: 600; }
-  .neg { color: #d32f2f; font-weight: 600; }
 </style>
 </head>
 <body>
 <div class="container">
 
 <h1>TAT Compliance RCA</h1>
-<p class="subtitle">Findings as of 14 April 2026 &middot; Baseline: December 2025 &middot; Recent: 17 Mar &ndash; 13 Apr 2026 &middot; Cash Collection &amp; Router Pickup excluded</p>
+<p class="subtitle">As of 14 April 2026 &middot; Baseline: December 2025 &middot; Recent: 17 Mar &ndash; 13 Apr 2026</p>
 
 <div class="toc">
-  <strong>Jump to:</strong>
-  <a href="#problem">Problem</a>
-  <a href="#trend">Weekly Trend</a>
-  <a href="#decomp">Problem Decomposition</a>
-  <a href="#tree1">Tree 1: Partner</a>
-  <a href="#tree2">Tree 2: Wiom CS</a>
-  <a href="#city">City Impact</a>
-  <a href="#next">Next Steps</a>
+  <a href="#problem">1. Problem</a>
+  <a href="#trend">2. Weekly Trend</a>
+  <a href="#split1">3. Service vs Others</a>
+  <a href="#service">4. Service Deep Dive</a>
+  <a href="#others">5. Others Deep Dive</a>
+  <a href="#split2">6. Px vs Cx</a>
+  <a href="#tree1">7. Tree 1: Partner (Px)</a>
+  <a href="#tree2">8. Tree 2: Wiom CS (Cx)</a>
+  <a href="#city">9. City</a>
+  <a href="#next">10. Next Steps</a>
 </div>
 
-<!-- PROBLEM STATEMENT -->
+<!-- 1. PROBLEM -->
 <div class="section" id="problem">
-  <h2>The Problem</h2>
-  <div class="metric-grid">
-    <div class="metric-card">
-      <div class="metric-value">81.7%</div>
-      <div class="metric-label">Dec Baseline</div>
-      <div class="metric-sub muted">TAT Compliance</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value red">74.4%</div>
-      <div class="metric-label">Recent (4 weeks)</div>
-      <div class="metric-sub red">&minus;7.3 percentage points</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value">~17K</div>
-      <div class="metric-label">Tickets / week</div>
-      <div class="metric-sub muted">Volume broadly stable</div>
-    </div>
+  <h2><span class="num-badge">1</span>The Problem</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="v">81.7%</div><div class="l">Dec Baseline</div></div>
+    <div class="kpi"><div class="v red">74.4%</div><div class="l">Recent &mdash; &minus;7.3pp</div></div>
+    <div class="kpi"><div class="v">~17K</div><div class="l">Tickets / week (stable)</div></div>
   </div>
-  <p><strong>What is TAT Compliance?</strong> Of all tickets created in a period, what % were resolved within the defined turnaround time. The clock starts at ticket creation and stops at final resolution (reopens don't reset it).</p>
-  <br>
-  <p><strong>Ticket types in scope (by TAT rule):</strong></p>
+  <p><strong>TAT Compliance:</strong> Of all tickets created, % resolved within the defined turnaround time. Clock = creation &rarr; final resolution.</p>
   <table>
-    <tr><th>Type</th><th>TAT</th><th>Clock</th><th>Share of volume</th></tr>
-    <tr><td>Service</td><td>4 hours</td><td>Working hours (05:30&ndash;15:30)</td><td>~78%</td></tr>
+    <tr><th>Type</th><th>TAT</th><th>Clock</th><th>Share</th></tr>
+    <tr><td>Service</td><td>4 hours</td><td>Working (05:30&ndash;15:30)</td><td>~78%</td></tr>
     <tr><td>Others</td><td>24 hours</td><td>Calendar</td><td>~22%</td></tr>
   </table>
-  <p style="margin-top:8px; font-size:13px;" class="muted">Excluded: Router pickup, Shift, Booking Status, Wiom Net, Cash Collection.</p>
+  <p class="muted" style="font-size:12px; margin-top:6px;">Excluded: Router pickup, Shift, Booking Status, Wiom Net, Cash Collection.</p>
 </div>
 
-<!-- WEEKLY TREND -->
+<!-- 2. TREND -->
 <div class="section" id="trend">
-  <div class="step-header"><div class="step-num">1</div><h2 style="border:none; margin:0; padding:0;">Weekly Trend &mdash; Is it the numerator or denominator?</h2></div>
-  <p style="margin:12px 0;">If the ratio is falling, is it because the denominator (total tickets) rose, or the numerator (within-TAT) fell?</p>
-
+  <h2><span class="num-badge">2</span>Weekly Trend</h2>
   <table>
-    <tr><th>Week</th><th class="num">Total Created</th><th class="num">Within TAT</th><th class="num">Breached</th><th class="num">TAT %</th></tr>
+    <tr><th>Week</th><th class="num">Total</th><th class="num">Within TAT</th><th class="num">Breached</th><th class="num">TAT %</th></tr>
     <tr><td>Dec 01</td><td class="num">17,711</td><td class="num">14,364</td><td class="num">3,347</td><td class="num">81.1%</td></tr>
     <tr><td>Dec 08</td><td class="num">17,756</td><td class="num">14,134</td><td class="num">3,439</td><td class="num">79.6%</td></tr>
     <tr><td>Dec 15</td><td class="num">18,616</td><td class="num">15,228</td><td class="num">3,363</td><td class="num">81.8%</td></tr>
@@ -117,220 +91,188 @@
     <tr><td>Jan 12</td><td class="num">17,282</td><td class="num">13,773</td><td class="num">3,509</td><td class="num">79.7%</td></tr>
     <tr><td>Jan 19</td><td class="num">16,154</td><td class="num">12,777</td><td class="num">3,316</td><td class="num">79.1%</td></tr>
     <tr><td>Jan 26</td><td class="num">16,702</td><td class="num">13,246</td><td class="num">3,442</td><td class="num">79.3%</td></tr>
-    <tr class="highlight-row"><td>Feb 02</td><td class="num">19,249</td><td class="num">14,681</td><td class="num red">4,495</td><td class="num red">76.3%</td></tr>
+    <tr><td>Feb 02</td><td class="num">19,249</td><td class="num">14,681</td><td class="num red">4,495</td><td class="num red">76.3%</td></tr>
     <tr><td>Feb 09</td><td class="num">17,712</td><td class="num">13,520</td><td class="num red">4,190</td><td class="num red">76.3%</td></tr>
     <tr><td>Feb 16</td><td class="num">19,651</td><td class="num">15,205</td><td class="num red">4,444</td><td class="num">77.4%</td></tr>
     <tr><td>Feb 23</td><td class="num">18,055</td><td class="num">13,677</td><td class="num red">4,371</td><td class="num red">75.8%</td></tr>
-    <tr class="highlight-row"><td>Mar 02 <span class="muted" style="font-size:11px;">(Holi)</span></td><td class="num">12,389</td><td class="num">8,461</td><td class="num">3,922</td><td class="num red">68.3%</td></tr>
+    <tr><td>Mar 02 <span class="muted" style="font-size:11px;">(Holi)</span></td><td class="num">12,389</td><td class="num">8,461</td><td class="num">3,922</td><td class="num red">68.3%</td></tr>
     <tr><td>Mar 09</td><td class="num">12,756</td><td class="num">9,026</td><td class="num">3,722</td><td class="num red">70.8%</td></tr>
     <tr><td>Mar 16</td><td class="num">15,123</td><td class="num">11,164</td><td class="num">3,948</td><td class="num">73.8%</td></tr>
     <tr><td>Mar 23</td><td class="num">17,571</td><td class="num">13,456</td><td class="num">4,092</td><td class="num">76.6%</td></tr>
     <tr><td>Mar 30</td><td class="num">17,032</td><td class="num">12,365</td><td class="num red">4,615</td><td class="num red">72.6%</td></tr>
     <tr><td>Apr 06</td><td class="num">16,683</td><td class="num">12,461</td><td class="num">3,795</td><td class="num">74.7%</td></tr>
   </table>
-
-  <div class="callout">
-    <strong>Volume is stable; the numerator is the problem.</strong> Tickets-per-week hover around ~17K. But breaches jumped from ~3,200/week (Dec) to ~4,000&ndash;4,600/week (Feb onwards) and stayed there even when volume returned to normal post-Holi. <strong>The breach count is sticky &mdash; something structural changed.</strong>
-  </div>
+  <div class="takeaway">Volume is stable (~17K/week). Breach count jumped from ~3,200 to ~4,000&ndash;4,600 in Feb and stayed there &mdash; something structural changed.</div>
 </div>
 
-<!-- PROBLEM DECOMPOSITION -->
-<div class="section" id="decomp">
-  <div class="step-header"><div class="step-num">2</div><h2 style="border:none; margin:0; padding:0;">Problem Decomposition &mdash; Splitting the &minus;7.3pp Drop</h2></div>
-
-  <div class="callout-neutral callout" style="margin-bottom:20px;">
-    <strong>Prioritization methodology &mdash; use both lenses</strong>
-    <p style="margin-top:6px; font-size:13px;">Two different questions need two different lenses:</p>
-    <ul style="margin-top:4px; font-size:13px;">
-      <li><strong>Rate Drop</strong> &mdash; "What's actually broken in the system?" This is the RCA lens. A &minus;5pp rate drop means real degradation, regardless of volume.</li>
-      <li><strong>Weighted Contribution</strong> &mdash; "How much did this move the headline metric?" This is the metric-math lens. Reflects rate &times; volume weight changes.</li>
-    </ul>
-    <p style="margin-top:6px; font-size:13px;">When they disagree, it's a signal that <strong>volume shifts are masking a real degradation</strong>. Never deprioritize a sub-type based on weighted contribution alone &mdash; check the rate drop first.</p>
-  </div>
-
-  <h3>Why not split by Ticket Type (Service vs Others)?</h3>
-  <p style="margin:8px 0;">It's the obvious first cut, but it's misleading. "Service" and "Others" are <strong>TAT-rule classifications</strong>, not workflow categories. Inside Service, both sub-types degraded &mdash; but volume dynamics made one look like it "helped" the metric:</p>
+<!-- 3. SERVICE VS OTHERS -->
+<div class="section" id="split1">
+  <h2><span class="num-badge">3</span>Split by Ticket Type: Service vs Others</h2>
   <table>
-    <tr><th>Service sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop <span class="muted" style="font-weight:normal;">(RCA lens)</span></th><th class="num">Weighted Contribution <span class="muted" style="font-weight:normal;">(metric-math lens)</span></th></tr>
-    <tr><td>Internet Supply Down (ISD)</td><td class="num">46,513</td><td class="num">76.7%</td><td class="num">44,872</td><td class="num red">73.4%</td><td class="num red">&minus;3.3pp</td><td class="num pos">+3.59pp <span class="muted">(volume share &uarr;)</span></td></tr>
-    <tr><td><strong>Recharge done but internet not working (RDNI)</strong></td><td class="num">11,402</td><td class="num">81.4%</td><td class="num">7,383</td><td class="num red">71.6%</td><td class="num red"><strong>&minus;9.8pp</strong></td><td class="num neg"><strong>&minus;4.01pp</strong></td></tr>
-    <tr style="background:#f0f0f0; font-weight:600;"><td>Service (net)</td><td class="num">57,917</td><td class="num">77.6%</td><td class="num">52,267</td><td class="num red">73.1%</td><td class="num red">&minus;4.5pp</td><td class="num">&minus;0.42pp</td></tr>
+    <tr><th>Type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th></tr>
+    <tr><td>Service</td><td class="num">57,917</td><td class="num">77.6%</td><td class="num">52,267</td><td class="num red">73.1%</td><td class="num red">&minus;4.5pp</td></tr>
+    <tr><td>Others</td><td class="num">20,159</td><td class="num">93.6%</td><td class="num">14,554</td><td class="num red">79.0%</td><td class="num red">&minus;14.5pp</td></tr>
+    <tr style="background:#f0f0f0; font-weight:600;"><td>Total</td><td class="num">78,076</td><td class="num">81.7%</td><td class="num">66,821</td><td class="num">74.4%</td><td class="num">&minus;7.3pp</td></tr>
   </table>
-  <p style="margin:8px 0;"><strong>Both sub-types have real rate degradation.</strong> ISD's +3.59pp weighted contribution is a volume artifact &mdash; its share grew from 59.6% to 67.2% because other ticket types shrank more. Rate-wise, ISD is still worse. Aggregating ISD and RDNI made Service look fine at &minus;0.42pp weighted &mdash; but the rate lens clearly shows <strong>all of Service is degrading</strong>.</p>
+  <div class="takeaway">Both degraded. Others dropped 3&times; harder (&minus;14.5pp vs &minus;4.5pp). Next step: look inside each.</div>
+</div>
 
-  <h3 style="margin-top:20px;">The correct cut: by resolution ownership (Px vs Cx)</h3>
-  <p style="margin:8px 0;">Every ticket is routed to a queue based on who can actually fix it:</p>
-  <ul>
-    <li><strong>Px queue</strong> &mdash; requires a CSP/partner (infra, connectivity, physical)</li>
-    <li><strong>Cx queue</strong> &mdash; resolved by Wiom customer service (backend, account, payments, app)</li>
+<!-- 4. SERVICE DEEP DIVE -->
+<div class="section" id="service">
+  <h2><span class="num-badge">4</span>Deep Dive: Service</h2>
+  <p style="font-size:13px; margin-bottom:6px;">Service has 2 real sub-types (99.9% of volume):</p>
+  <table>
+    <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th></tr>
+    <tr><td>Internet Supply Down (ISD)</td><td class="num">46,513</td><td class="num">76.7%</td><td class="num">44,872</td><td class="num red">73.4%</td><td class="num red">&minus;3.3pp</td></tr>
+    <tr><td>Recharge done but internet not working (RDNI)</td><td class="num">11,402</td><td class="num">81.4%</td><td class="num">7,383</td><td class="num red">71.6%</td><td class="num red">&minus;9.8pp</td></tr>
+  </table>
+  <div class="takeaway">Both Service sub-types degraded. RDNI dropped 3&times; more than ISD &mdash; but both are genuinely worse, not just one.</div>
+</div>
+
+<!-- 5. OTHERS DEEP DIVE -->
+<div class="section" id="others">
+  <h2><span class="num-badge">5</span>Deep Dive: Others</h2>
+  <p style="font-size:13px; margin-bottom:6px;">Others has 109 sub-types. Top 10 below:</p>
+  <table>
+    <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th></tr>
+    <tr><td>Frequent Disconnection</td><td class="num">6,425</td><td class="num">92.4%</td><td class="num">4,067</td><td class="num red">86.9%</td><td class="num red">&minus;5.5pp</td></tr>
+    <tr><td>Help in renewal</td><td class="num">4,226</td><td class="num">96.2%</td><td class="num">2,653</td><td class="num red">85.7%</td><td class="num red">&minus;10.5pp</td></tr>
+    <tr><td>Slow Speed / Range Issues</td><td class="num">2,570</td><td class="num">91.8%</td><td class="num">1,464</td><td class="num red">85.5%</td><td class="num red">&minus;6.3pp</td></tr>
+    <tr><td>Others | Other</td><td class="num">1,140</td><td class="num">94.0%</td><td class="num">642</td><td class="num red">80.7%</td><td class="num red">&minus;13.3pp</td></tr>
+    <tr><td>Autopay issue</td><td class="num">679</td><td class="num">96.6%</td><td class="num">905</td><td class="num red">76.9%</td><td class="num red">&minus;19.7pp</td></tr>
+    <tr><td>Remove Connection &mdash; Wiom Service Issue</td><td class="num">683</td><td class="num">96.6%</td><td class="num">58</td><td class="num red">86.2%</td><td class="num red">&minus;10.4pp</td></tr>
+    <tr><td>Payment not reflecting</td><td class="num">570</td><td class="num">93.3%</td><td class="num">489</td><td class="num red">60.9%</td><td class="num red">&minus;32.4pp</td></tr>
+    <tr><td>Change Plan</td><td class="num">492</td><td class="num">99.2%</td><td class="num">43</td><td class="num red">79.1%</td><td class="num red">&minus;20.1pp</td></tr>
+    <tr><td>Change Name or Mobile Number</td><td class="num">422</td><td class="num">96.0%</td><td class="num">232</td><td class="num red">64.7%</td><td class="num red">&minus;31.3pp</td></tr>
+    <tr><td>Refund | Service Issue</td><td class="num">375</td><td class="num">94.7%</td><td class="num">799</td><td class="num red">65.7%</td><td class="num red">&minus;29.0pp</td></tr>
+  </table>
+  <div class="takeaway">Almost every sub-type degraded 5&ndash;40pp. Mix of internet issues (Frequent Disconnection, Slow Speed) and account/payment issues (renewal, autopay, change requests). Need a sharper lens to separate these.</div>
+</div>
+
+<!-- 6. PX VS CX -->
+<div class="section" id="split2">
+  <h2><span class="num-badge">6</span>Re-splitting by Resolution Owner: Px vs Cx</h2>
+  <p style="font-size:13px; margin-bottom:6px;">The sharper cut: who resolves the ticket. Every ticket routes to one of two queues:</p>
+  <ul style="font-size:13px; margin-bottom:10px;">
+    <li><span class="tag tag-px">Px</span> Partner/CSP &mdash; infra, connectivity, physical work</li>
+    <li><span class="tag tag-cx">Cx</span> Wiom customer service &mdash; backend, account, payments, app</li>
   </ul>
-  <p style="margin:8px 0;">The queue assignment is near-perfect (sub-types are 99-100% one queue). This gives us two <strong>operationally distinct problems</strong>:</p>
+  <p style="font-size:13px; margin-bottom:6px;">Queue assignment is near-perfect (sub-types are 99-100% one queue):</p>
 
   <table>
-    <tr><th>Queue</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Weighted Contribution</th><th class="num">Share of Drop</th></tr>
-    <tr><td><span class="tag tag-orange">Px</span> Partner queue</td><td class="num">68,123</td><td class="num">79.7%</td><td class="num">58,997</td><td class="num">74.3%</td><td class="num red">&minus;5.3pp</td><td class="num neg">&minus;3.89pp</td><td class="num"><strong>53.1%</strong></td></tr>
-    <tr><td><span class="tag tag-blue">Cx</span> Wiom CS queue</td><td class="num">9,953</td><td class="num">95.9%</td><td class="num">7,824</td><td class="num red">75.1%</td><td class="num red">&minus;20.8pp</td><td class="num neg">&minus;3.43pp</td><td class="num"><strong>46.9%</strong></td></tr>
-    <tr style="background:#f0f0f0; font-weight:600;"><td>Total</td><td class="num">78,076</td><td class="num">81.7%</td><td class="num">66,821</td><td class="num">74.4%</td><td class="num">&minus;7.3pp</td><td class="num">&minus;7.32pp</td><td class="num">100%</td></tr>
+    <tr><th>Type &times; Queue</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th></tr>
+    <tr><td>Service &mdash; Px</td><td class="num">57,917</td><td class="num">77.6%</td><td class="num">52,267</td><td class="num red">73.1%</td><td class="num red">&minus;4.5pp</td></tr>
+    <tr><td>Others &mdash; Px</td><td class="num">10,206</td><td class="num">91.3%</td><td class="num">6,731</td><td class="num red">83.6%</td><td class="num red">&minus;7.7pp</td></tr>
+    <tr><td>Others &mdash; Cx</td><td class="num">9,953</td><td class="num">95.9%</td><td class="num">7,823</td><td class="num red">75.1%</td><td class="num red">&minus;20.8pp</td></tr>
   </table>
 
-  <div class="callout-blue callout">
-    <strong>The overall drop is two separate problems with different owners:</strong>
-    <ul style="margin-top:8px;">
-      <li><strong>Partner-side</strong>: Px queue degrading &minus;5.3pp. Already the weaker bucket, now weaker. CSP-driven, connectivity-related.</li>
-      <li><strong>Wiom-side</strong>: Cx queue collapsed &minus;20.8pp. Was near-perfect at 95.9%, now at 75.1%. Wiom-owned workflows only.</li>
-    </ul>
-    Two owners, two root causes, two separate investigations.
-  </div>
+  <h3>Rolled up by queue</h3>
+  <table>
+    <tr><th>Queue</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Share of Total Drop</th></tr>
+    <tr><td><span class="tag tag-px">Px</span> Partner</td><td class="num">68,123</td><td class="num">79.7%</td><td class="num">58,997</td><td class="num red">74.3%</td><td class="num red">&minus;5.3pp</td><td class="num">53%</td></tr>
+    <tr><td><span class="tag tag-cx">Cx</span> Wiom CS</td><td class="num">9,953</td><td class="num">95.9%</td><td class="num">7,824</td><td class="num red">75.1%</td><td class="num red">&minus;20.8pp</td><td class="num">47%</td></tr>
+  </table>
+
+  <div class="takeaway takeaway-blue"><strong>Two distinct problems with different owners:</strong> Partner-side degrading &minus;5.3pp (connectivity issues); Wiom CS-side collapsed &minus;20.8pp from near-perfect. Two investigations needed.</div>
 </div>
 
-<!-- TREE 1: PARTNER -->
+<!-- 7. TREE 1: PARTNER -->
 <div class="section" id="tree1">
-  <h2><span class="tag tag-orange" style="font-size:13px; padding:4px 12px;">Tree 1</span> &nbsp; Partner Queue (Px) &mdash; 4 Connectivity Sub-Types All Degraded</h2>
-
-  <div class="metric-grid">
-    <div class="metric-card">
-      <div class="metric-value">79.7%</div>
-      <div class="metric-label">Dec TAT</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value red">74.3%</div>
-      <div class="metric-label">Recent TAT</div>
-      <div class="metric-sub red">&minus;5.3pp</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value">53%</div>
-      <div class="metric-label">of Overall Drop</div>
-    </div>
+  <h2><span class="tag tag-px" style="font-size:13px; padding:3px 10px; margin-right:6px;">Tree 1</span>Partner Queue (Px) Deep Dive</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="v">79.7%</div><div class="l">Dec</div></div>
+    <div class="kpi"><div class="v red">74.3%</div><div class="l">Recent (&minus;5.3pp)</div></div>
+    <div class="kpi"><div class="v">53%</div><div class="l">of overall drop</div></div>
   </div>
 
-  <h3>Sub-type view &mdash; every degraded sub-type shown (both lenses)</h3>
-  <p style="margin:8px 0; font-size:13px;">"Recovery opportunity" = Recent volume &times; rate drop. Approximates how many more within-TAT tickets we'd regain per ~4-week period if rate bounced back to Dec. Surfaces impact masked by volume shifts.</p>
+  <h3>Px sub-types with rate drop</h3>
   <table>
-    <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Weighted Contribution</th><th class="num">Recovery Opportunity</th></tr>
-    <tr class="highlight-row"><td><strong>Internet Supply Down (ISD)</strong></td><td class="num">46,513</td><td class="num">76.7%</td><td class="num">44,872</td><td class="num red">73.4%</td><td class="num red">&minus;3.3pp</td><td class="num pos">+3.45pp <span class="muted">(vol &uarr;)</span></td><td class="num neg"><strong>~1,481 tickets</strong></td></tr>
-    <tr class="highlight-row"><td><strong>Recharge done but internet not working (RDNI)</strong></td><td class="num">11,402</td><td class="num">81.4%</td><td class="num">7,383</td><td class="num red">71.6%</td><td class="num red"><strong>&minus;9.8pp</strong></td><td class="num neg">&minus;4.66pp</td><td class="num neg"><strong>~724 tickets</strong></td></tr>
-    <tr class="highlight-row"><td><strong>Frequent Disconnection</strong></td><td class="num">6,425</td><td class="num">92.4%</td><td class="num">4,067</td><td class="num red">86.9%</td><td class="num red">&minus;5.5pp</td><td class="num neg">&minus;2.72pp</td><td class="num neg">~224 tickets</td></tr>
-    <tr class="highlight-row"><td><strong>Slow Speed / Range Issues</strong></td><td class="num">2,570</td><td class="num">91.8%</td><td class="num">1,464</td><td class="num red">85.5%</td><td class="num red">&minus;6.3pp</td><td class="num neg">&minus;1.34pp</td><td class="num neg">~92 tickets</td></tr>
-    <tr><td>All other Px sub-types (combined)</td><td class="num">1,213</td><td class="num">&mdash;</td><td class="num">1,211</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">~&minus;0.07pp</td><td class="num">~negligible</td></tr>
+    <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th></tr>
+    <tr class="row-focus"><td>Internet Supply Down (ISD) <span class="muted">&mdash; Service</span></td><td class="num">46,513</td><td class="num">76.7%</td><td class="num">44,872</td><td class="num red">73.4%</td><td class="num red">&minus;3.3pp</td></tr>
+    <tr class="row-focus"><td>Recharge done but internet not working (RDNI) <span class="muted">&mdash; Service</span></td><td class="num">11,402</td><td class="num">81.4%</td><td class="num">7,383</td><td class="num red">71.6%</td><td class="num red">&minus;9.8pp</td></tr>
+    <tr class="row-focus"><td>Frequent Disconnection <span class="muted">&mdash; Others</span></td><td class="num">6,425</td><td class="num">92.4%</td><td class="num">4,067</td><td class="num red">86.9%</td><td class="num red">&minus;5.5pp</td></tr>
+    <tr class="row-focus"><td>Slow Speed / Range Issues <span class="muted">&mdash; Others</span></td><td class="num">2,570</td><td class="num">91.8%</td><td class="num">1,464</td><td class="num red">85.5%</td><td class="num red">&minus;6.3pp</td></tr>
+    <tr><td>All other Px sub-types</td><td class="num">1,213</td><td class="num">&mdash;</td><td class="num">1,211</td><td class="num">&mdash;</td><td class="num">minor</td></tr>
   </table>
 
-  <div class="callout-red callout">
-    <strong>All four connectivity sub-types are genuinely degraded.</strong> Earlier we only highlighted three (RDNI, FD, SS) because ISD's weighted contribution was positive &mdash; but that was purely volume-share growth. Its rate also dropped &minus;3.3pp. By recovery opportunity (the absolute number of fixable breaches), <strong>ISD is actually the biggest lever (~1,481 tickets)</strong> &mdash; bigger than RDNI alone.
-  </div>
-
-  <div class="callout">
-    <strong>From the customer's perspective, all four are the same problem:</strong> "my internet isn't working properly." TAT rules split them across Service (ISD + RDNI) and Others (FD + SS), but the partner resolution work is the same kind of field operation. Investigate together.
-  </div>
+  <div class="takeaway">All 4 connectivity sub-types degraded. From customer's POV, these are the same problem: "my internet isn't working properly." TAT rules split them across Service and Others, but the partner resolution work is the same. Investigate together.</div>
 
   <h3>What to investigate</h3>
   <ul>
-    <li><strong>ISD (biggest recovery lever)</strong>: Volume is stable but rate has drifted down &minus;3.3pp. Is field response time slowing? Capacity mismatch at peak hours? Technician availability post-Feb?</li>
-    <li><strong>RDNI lifecycle (sharpest rate drop)</strong>: Why does "recharge done but internet not working" now take longer? Is it auto-created post-recharge? Check the recharge &rarr; activation &rarr; router sync flow for failure points.</li>
-    <li><strong>Partner cohort effect</strong>: Earlier analysis showed small partners (20&ndash;99 Dec tickets) had the largest rate drop (&minus;8.8pp). Is this a capacity/training issue concentrated in that segment?</li>
-    <li><strong>Connectivity quality (FD &amp; SS)</strong>: These are degraded-experience tickets (not hard outages). Cross-reference with router uptime / ping flap data from SQ-CSP dashboards.</li>
+    <li><strong>ISD:</strong> Volume stable, rate drifted. Field response time slowing? Technician availability?</li>
+    <li><strong>RDNI:</strong> Sharpest rate drop. Check recharge &rarr; activation &rarr; router sync flow.</li>
+    <li><strong>Frequent Disconnection &amp; Slow Speed:</strong> Degraded-experience tickets. Cross-ref router uptime / ping flap.</li>
+    <li><strong>Partner cohort:</strong> Small partners (20&ndash;99 Dec tickets) had the biggest rate drop (&minus;8.8pp). Capacity / training issue?</li>
   </ul>
 </div>
 
-<!-- TREE 2: WIOM CS -->
+<!-- 8. TREE 2: WIOM CS -->
 <div class="section" id="tree2">
-  <h2><span class="tag tag-blue" style="font-size:13px; padding:4px 12px;">Tree 2</span> &nbsp; Wiom CS Queue (Cx) &mdash; Widespread Collapse</h2>
-
-  <div class="metric-grid">
-    <div class="metric-card">
-      <div class="metric-value">95.9%</div>
-      <div class="metric-label">Dec TAT</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value red">75.1%</div>
-      <div class="metric-label">Recent TAT</div>
-      <div class="metric-sub red">&minus;20.8pp</div>
-    </div>
-    <div class="metric-card">
-      <div class="metric-value">47%</div>
-      <div class="metric-label">of Overall Drop</div>
-    </div>
+  <h2><span class="tag tag-cx" style="font-size:13px; padding:3px 10px; margin-right:6px;">Tree 2</span>Wiom CS Queue (Cx) Deep Dive</h2>
+  <div class="kpis">
+    <div class="kpi"><div class="v">95.9%</div><div class="l">Dec</div></div>
+    <div class="kpi"><div class="v red">75.1%</div><div class="l">Recent (&minus;20.8pp)</div></div>
+    <div class="kpi"><div class="v">47%</div><div class="l">of overall drop</div></div>
   </div>
 
-  <h3>Sub-type contribution within Cx</h3>
+  <h3>Cx sub-types with rate drop</h3>
   <table>
-    <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Weighted Contribution (within Cx)</th></tr>
-    <tr class="highlight-row"><td>Help in renewal</td><td class="num">4,226</td><td class="num">96.2%</td><td class="num">2,653</td><td class="num red">85.7%</td><td class="num red">&minus;10.5pp</td><td class="num neg">&minus;11.79pp</td></tr>
-    <tr><td>Remove Connection &mdash; Wiom Service Issue</td><td class="num">683</td><td class="num">96.6%</td><td class="num">58</td><td class="num red">86.2%</td><td class="num red">&minus;10.4pp</td><td class="num neg">&minus;5.99pp</td></tr>
-    <tr><td>Change Plan</td><td class="num">492</td><td class="num">99.2%</td><td class="num">43</td><td class="num red">79.1%</td><td class="num red">&minus;20.1pp</td><td class="num neg">&minus;4.47pp</td></tr>
-    <tr><td>Others | Other</td><td class="num">1,140</td><td class="num">94.0%</td><td class="num">642</td><td class="num red">80.7%</td><td class="num red">&minus;13.3pp</td><td class="num neg">&minus;4.15pp</td></tr>
-    <tr><td>Change Name or Mobile Number</td><td class="num">422</td><td class="num">96.0%</td><td class="num">232</td><td class="num red">64.7%</td><td class="num red">&minus;31.3pp</td><td class="num neg">&minus;2.15pp</td></tr>
-    <tr><td>Payment not reflecting</td><td class="num">570</td><td class="num">93.3%</td><td class="num">489</td><td class="num red">60.9%</td><td class="num red">&minus;32.4pp</td><td class="num neg">&minus;1.54pp</td></tr>
-    <tr><td>Change Wifi Name/Password</td><td class="num">231</td><td class="num">95.7%</td><td class="num">117</td><td class="num red">74.4%</td><td class="num red">&minus;21.3pp</td><td class="num neg">&minus;1.11pp</td></tr>
-    <tr><td>Invoice requested</td><td class="num">158</td><td class="num">96.8%</td><td class="num">90</td><td class="num red">52.2%</td><td class="num red">&minus;44.6pp</td><td class="num neg">&minus;0.94pp</td></tr>
-    <tr><td>Refund | Double payment</td><td class="num">168</td><td class="num">94.6%</td><td class="num">103</td><td class="num red">69.9%</td><td class="num red">&minus;24.7pp</td><td class="num neg">&minus;0.68pp</td></tr>
-    <tr class="muted"><td>Unable to Pay via App &mdash; volume grew 130&times;</td><td class="num">5</td><td class="num">100%</td><td class="num">663</td><td class="num red">64.0%</td><td class="num red">&minus;36.0pp</td><td class="num pos">+5.37pp*</td></tr>
-    <tr class="muted"><td>Refund | Service Issue &mdash; volume grew 2&times;</td><td class="num">375</td><td class="num">94.7%</td><td class="num">799</td><td class="num red">65.7%</td><td class="num red">&minus;29.0pp</td><td class="num pos">+3.14pp*</td></tr>
-    <tr class="muted"><td>Autopay issue &mdash; volume grew</td><td class="num">679</td><td class="num">96.6%</td><td class="num">905</td><td class="num red">76.9%</td><td class="num red">&minus;19.7pp</td><td class="num pos">+2.30pp*</td></tr>
+    <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th></tr>
+    <tr><td>Help in renewal</td><td class="num">4,226</td><td class="num">96.2%</td><td class="num">2,653</td><td class="num red">85.7%</td><td class="num red">&minus;10.5pp</td></tr>
+    <tr><td>Others | Other</td><td class="num">1,140</td><td class="num">94.0%</td><td class="num">642</td><td class="num red">80.7%</td><td class="num red">&minus;13.3pp</td></tr>
+    <tr><td>Autopay issue</td><td class="num">679</td><td class="num">96.6%</td><td class="num">905</td><td class="num red">76.9%</td><td class="num red">&minus;19.7pp</td></tr>
+    <tr><td>Remove Connection &mdash; Wiom Service Issue</td><td class="num">683</td><td class="num">96.6%</td><td class="num">58</td><td class="num red">86.2%</td><td class="num red">&minus;10.4pp</td></tr>
+    <tr><td>Payment not reflecting</td><td class="num">570</td><td class="num">93.3%</td><td class="num">489</td><td class="num red">60.9%</td><td class="num red">&minus;32.4pp</td></tr>
+    <tr><td>Change Plan</td><td class="num">492</td><td class="num">99.2%</td><td class="num">43</td><td class="num red">79.1%</td><td class="num red">&minus;20.1pp</td></tr>
+    <tr><td>Change Name or Mobile Number</td><td class="num">422</td><td class="num">96.0%</td><td class="num">232</td><td class="num red">64.7%</td><td class="num red">&minus;31.3pp</td></tr>
+    <tr><td>Refund | Service Issue</td><td class="num">375</td><td class="num">94.7%</td><td class="num">799</td><td class="num red">65.7%</td><td class="num red">&minus;29.0pp</td></tr>
+    <tr><td>Change Wifi Name/Password</td><td class="num">231</td><td class="num">95.7%</td><td class="num">117</td><td class="num red">74.4%</td><td class="num red">&minus;21.3pp</td></tr>
+    <tr><td>Refund | Double payment</td><td class="num">168</td><td class="num">94.6%</td><td class="num">103</td><td class="num red">69.9%</td><td class="num red">&minus;24.7pp</td></tr>
+    <tr><td>Invoice requested</td><td class="num">158</td><td class="num">96.8%</td><td class="num">90</td><td class="num red">52.2%</td><td class="num red">&minus;44.6pp</td></tr>
+    <tr><td>Unable to Pay via App</td><td class="num">5</td><td class="num">100%</td><td class="num">663</td><td class="num red">64.0%</td><td class="num red">&minus;36.0pp</td></tr>
   </table>
-  <p class="note">*Positive weighted contribution despite large rate drop: these sub-types grew so much in volume that their weight increased, which algebraically offsets rate decline. But the underlying rate degradation is real and is part of the signal.</p>
 
-  <div class="callout-red callout">
-    <strong>This is not one broken workflow &mdash; nearly every Cx sub-type degraded 10&ndash;45pp.</strong> Top sub-type (Help in renewal) explains 57% of Cx drop, but the rest spreads across 10+ categories. Pattern signals a systemic issue at the operation level, not a specific workflow.
-  </div>
+  <div class="takeaway takeaway-red">Not one broken workflow &mdash; nearly every Cx sub-type degraded 10&ndash;45pp. Pattern signals a systemic issue at the operation level.</div>
 
   <h3>What to investigate</h3>
   <ul>
-    <li><strong>Capacity / Staffing</strong>: Did Cx team size change? Tickets-per-agent-per-day Dec vs now. Attrition or ramp-up of new hires?</li>
-    <li><strong>System / Tool change</strong>: Was there a Kapture or backend change in Jan&ndash;Feb? Map the inflection date to release notes.</li>
-    <li><strong>Crowd-out effect</strong>: Several sub-types grew 10&ndash;130&times; in volume (Unable to Pay via App: 5 &rarr; 663). New workflows entering without added capacity would push older workflows out of TAT.</li>
-    <li><strong>Process changes</strong>: Was a new approval or verification step added for refunds, plan changes, account edits?</li>
+    <li><strong>Capacity / Staffing:</strong> Did Cx team size change? Tickets-per-agent Dec vs now.</li>
+    <li><strong>System / Tool change:</strong> Kapture or backend change in Jan&ndash;Feb? Map inflection date.</li>
+    <li><strong>Crowd-out:</strong> Sub-types grew 10&ndash;130&times; (Unable to Pay: 5&rarr;663). New load pushing old workflows out.</li>
+    <li><strong>Process changes:</strong> New approval/verification step added for refunds, plan changes, account edits?</li>
   </ul>
 </div>
 
-<!-- CITY IMPACT -->
+<!-- 9. CITY -->
 <div class="section" id="city">
-  <div class="step-header"><div class="step-num">3</div><h2 style="border:none; margin:0; padding:0;">City-Level Impact</h2></div>
-
+  <h2><span class="num-badge">9</span>City Impact</h2>
   <table>
-    <tr><th>City</th><th class="num">Dec Tickets</th><th class="num">Dec Weight</th><th class="num">Dec TAT%</th><th class="num">Recent Tickets</th><th class="num">Recent Weight</th><th class="num">Recent TAT%</th><th class="num">Rate Drop</th><th class="num">Weighted Contribution</th><th class="num">Share of Drop</th></tr>
-    <tr><td>Delhi NCR</td><td class="num">64,792</td><td class="num">83.0%</td><td class="num">82.1%</td><td class="num">57,179</td><td class="num">85.6%</td><td class="num">75.7%</td><td class="num red">&minus;6.4pp</td><td class="num neg">&minus;3.33pp</td><td class="num"><strong>45.5%</strong></td></tr>
-    <tr><td>Bharat</td><td class="num">7,901</td><td class="num">10.1%</td><td class="num">81.5%</td><td class="num">5,232</td><td class="num">7.8%</td><td class="num red">69.3%</td><td class="num red">&minus;12.2pp</td><td class="num neg">&minus;2.82pp</td><td class="num"><strong>38.5%</strong></td></tr>
-    <tr><td>Mumbai</td><td class="num">5,383</td><td class="num">6.9%</td><td class="num">78.1%</td><td class="num">4,410</td><td class="num">6.6%</td><td class="num red">63.8%</td><td class="num red">&minus;14.3pp</td><td class="num neg">&minus;1.17pp</td><td class="num"><strong>16.0%</strong></td></tr>
+    <tr><th>City</th><th class="num">Dec Tickets</th><th class="num">Weight</th><th class="num">Dec TAT</th><th class="num">Recent Tickets</th><th class="num">Recent TAT</th><th class="num">Rate Drop</th><th class="num">Share of Drop</th></tr>
+    <tr><td>Delhi NCR</td><td class="num">64,792</td><td class="num">83%</td><td class="num">82.1%</td><td class="num">57,179</td><td class="num red">75.7%</td><td class="num red">&minus;6.4pp</td><td class="num">45.5%</td></tr>
+    <tr><td>Bharat</td><td class="num">7,901</td><td class="num">10%</td><td class="num">81.5%</td><td class="num">5,232</td><td class="num red">69.3%</td><td class="num red">&minus;12.2pp</td><td class="num">38.5%</td></tr>
+    <tr><td>Mumbai</td><td class="num">5,383</td><td class="num">7%</td><td class="num">78.1%</td><td class="num">4,410</td><td class="num red">63.8%</td><td class="num red">&minus;14.3pp</td><td class="num">16.0%</td></tr>
   </table>
-
-  <div class="callout">
-    <strong>Delhi NCR</strong> has the smallest rate drop but dominates by volume &mdash; 45.5% of the overall decline.<br>
-    <strong>Bharat</strong> is punching above its weight &mdash; only 8% of tickets but 38.5% of the drop (rate fell 12pp).<br>
-    <strong>Mumbai</strong> has the worst rate deterioration (&minus;14pp) but small volume limits its impact to 16%.
-  </div>
+  <div class="takeaway">Delhi NCR: smallest rate drop but 83% of volume &rarr; 45.5% of decline. Bharat &amp; Mumbai: sharp rate drops but lower volume share.</div>
 </div>
 
-<!-- NEXT STEPS -->
+<!-- 10. NEXT STEPS -->
 <div class="section" id="next">
-  <h2>Next Steps</h2>
-  <p style="margin-top:8px;">Two parallel investigations, scoped to their actual owners:</p>
-
-  <div class="tree-grid">
-    <div class="tree-card partner">
-      <h4><span class="tag tag-orange">Tree 1</span> Partner Queue (Px)</h4>
-      <p style="font-size:13px;"><strong>Focus:</strong> 4 connectivity sub-types &mdash; ISD, RDNI, Frequent Disconnection, Slow Speed. All have real rate drops.</p>
-      <ul style="font-size:13px; margin-left:16px; margin-top:6px;">
-        <li>ISD &mdash; biggest recovery lever by volume</li>
-        <li>RDNI &mdash; sharpest rate drop, lifecycle drill</li>
-        <li>Cross-cut with partner cohort (small partners)</li>
-        <li>Correlate with router uptime / ping flap</li>
-      </ul>
-      <p class="note">Owner: Partner Ops + Infra</p>
-    </div>
-    <div class="tree-card wiom">
-      <h4><span class="tag tag-blue">Tree 2</span> Wiom CS Queue (Cx)</h4>
-      <p style="font-size:13px;"><strong>Focus:</strong> Systemic degradation across 10+ sub-types.</p>
-      <ul style="font-size:13px; margin-left:16px; margin-top:6px;">
-        <li>CS agent capacity vs ticket volume (Dec&ndash;Apr)</li>
-        <li>Inflection date vs tool/process changes</li>
-        <li>Impact of new high-volume workflows (Unable to Pay, Refund)</li>
-      </ul>
-      <p class="note">Owner: Wiom CS / Support Ops</p>
-    </div>
-  </div>
+  <h2><span class="num-badge">10</span>Next Steps</h2>
+  <p style="margin-bottom:10px;">Two parallel investigations:</p>
+  <table>
+    <tr><th style="width:50%;">Tree 1 &mdash; Partner (Px)</th><th style="width:50%;">Tree 2 &mdash; Wiom CS (Cx)</th></tr>
+    <tr>
+      <td>4 connectivity sub-types: ISD, RDNI, Frequent Disconnection, Slow Speed. Focus on lifecycle stages + partner cohort.</td>
+      <td>Systemic degradation across 10+ sub-types. Focus on capacity, tool/process changes, crowd-out effect.</td>
+    </tr>
+    <tr>
+      <td class="muted"><em>Owner: Partner Ops + Infra</em></td>
+      <td class="muted"><em>Owner: Wiom CS / Support Ops</em></td>
+    </tr>
+  </table>
 </div>
 
-<p style="text-align:center; font-size:12px; color:#999; margin-top:20px;">Generated from prod_db.public.service_ticket_model via Metabase API &middot; Data as of 14 Apr 2026 IST</p>
+<p style="text-align:center; font-size:12px; color:#999; margin-top:20px;">Source: prod_db.public.service_ticket_model &middot; Data as of 14 Apr 2026 IST</p>
 
 </div>
 </body>
