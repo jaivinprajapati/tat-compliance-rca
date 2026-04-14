@@ -138,15 +138,25 @@
 <div class="section" id="decomp">
   <div class="step-header"><div class="step-num">2</div><h2 style="border:none; margin:0; padding:0;">Problem Decomposition &mdash; Splitting the &minus;7.3pp Drop</h2></div>
 
+  <div class="callout-neutral callout" style="margin-bottom:20px;">
+    <strong>Prioritization methodology &mdash; use both lenses</strong>
+    <p style="margin-top:6px; font-size:13px;">Two different questions need two different lenses:</p>
+    <ul style="margin-top:4px; font-size:13px;">
+      <li><strong>Rate Drop</strong> &mdash; "What's actually broken in the system?" This is the RCA lens. A &minus;5pp rate drop means real degradation, regardless of volume.</li>
+      <li><strong>Weighted Contribution</strong> &mdash; "How much did this move the headline metric?" This is the metric-math lens. Reflects rate &times; volume weight changes.</li>
+    </ul>
+    <p style="margin-top:6px; font-size:13px;">When they disagree, it's a signal that <strong>volume shifts are masking a real degradation</strong>. Never deprioritize a sub-type based on weighted contribution alone &mdash; check the rate drop first.</p>
+  </div>
+
   <h3>Why not split by Ticket Type (Service vs Others)?</h3>
-  <p style="margin:8px 0;">It's the obvious first cut, but it's misleading. "Service" and "Others" are <strong>TAT-rule classifications</strong>, not workflow categories. Inside Service there are two very different sub-types behaving oppositely:</p>
+  <p style="margin:8px 0;">It's the obvious first cut, but it's misleading. "Service" and "Others" are <strong>TAT-rule classifications</strong>, not workflow categories. Inside Service, both sub-types degraded &mdash; but volume dynamics made one look like it "helped" the metric:</p>
   <table>
-    <tr><th>Service sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Weighted Contribution</th></tr>
-    <tr><td>Internet Supply Down (ISD)</td><td class="num">46,513</td><td class="num">76.7%</td><td class="num">44,872</td><td class="num">73.4%</td><td class="num">&minus;3.3pp</td><td class="num pos">+3.59pp</td></tr>
+    <tr><th>Service sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop <span class="muted" style="font-weight:normal;">(RCA lens)</span></th><th class="num">Weighted Contribution <span class="muted" style="font-weight:normal;">(metric-math lens)</span></th></tr>
+    <tr><td>Internet Supply Down (ISD)</td><td class="num">46,513</td><td class="num">76.7%</td><td class="num">44,872</td><td class="num red">73.4%</td><td class="num red">&minus;3.3pp</td><td class="num pos">+3.59pp <span class="muted">(volume share &uarr;)</span></td></tr>
     <tr><td><strong>Recharge done but internet not working (RDNI)</strong></td><td class="num">11,402</td><td class="num">81.4%</td><td class="num">7,383</td><td class="num red">71.6%</td><td class="num red"><strong>&minus;9.8pp</strong></td><td class="num neg"><strong>&minus;4.01pp</strong></td></tr>
-    <tr style="background:#f0f0f0; font-weight:600;"><td>Service (net)</td><td class="num">57,917</td><td class="num">77.6%</td><td class="num">52,267</td><td class="num">73.1%</td><td class="num">&minus;4.5pp</td><td class="num">&minus;0.42pp</td></tr>
+    <tr style="background:#f0f0f0; font-weight:600;"><td>Service (net)</td><td class="num">57,917</td><td class="num">77.6%</td><td class="num">52,267</td><td class="num red">73.1%</td><td class="num red">&minus;4.5pp</td><td class="num">&minus;0.42pp</td></tr>
   </table>
-  <p style="margin:8px 0;">ISD's volume share grew (because overall volume dropped post-Holi while ISD stayed stable), creating a &plus;3.6pp mix-shift gain that offset RDNI's &minus;4.0pp damage. <strong>Aggregating them made Service look fine at &minus;0.4pp &mdash; but RDNI was silently worse.</strong></p>
+  <p style="margin:8px 0;"><strong>Both sub-types have real rate degradation.</strong> ISD's +3.59pp weighted contribution is a volume artifact &mdash; its share grew from 59.6% to 67.2% because other ticket types shrank more. Rate-wise, ISD is still worse. Aggregating ISD and RDNI made Service look fine at &minus;0.42pp weighted &mdash; but the rate lens clearly shows <strong>all of Service is degrading</strong>.</p>
 
   <h3 style="margin-top:20px;">The correct cut: by resolution ownership (Px vs Cx)</h3>
   <p style="margin:8px 0;">Every ticket is routed to a queue based on who can actually fix it:</p>
@@ -175,7 +185,7 @@
 
 <!-- TREE 1: PARTNER -->
 <div class="section" id="tree1">
-  <h2><span class="tag tag-orange" style="font-size:13px; padding:4px 12px;">Tree 1</span> &nbsp; Partner Queue (Px) &mdash; Concentrated in 3 Sub-Types</h2>
+  <h2><span class="tag tag-orange" style="font-size:13px; padding:4px 12px;">Tree 1</span> &nbsp; Partner Queue (Px) &mdash; 4 Connectivity Sub-Types All Degraded</h2>
 
   <div class="metric-grid">
     <div class="metric-card">
@@ -193,25 +203,31 @@
     </div>
   </div>
 
-  <h3>Sub-type contribution within Px</h3>
+  <h3>Sub-type view &mdash; every degraded sub-type shown (both lenses)</h3>
+  <p style="margin:8px 0; font-size:13px;">"Recovery opportunity" = Recent volume &times; rate drop. Approximates how many more within-TAT tickets we'd regain per ~4-week period if rate bounced back to Dec. Surfaces impact masked by volume shifts.</p>
   <table>
-    <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Weighted Contribution (within Px)</th></tr>
-    <tr class="highlight-row"><td><strong>Recharge done but internet not working (RDNI)</strong></td><td class="num">11,402</td><td class="num">81.4%</td><td class="num">7,383</td><td class="num red">71.6%</td><td class="num red">&minus;9.8pp</td><td class="num neg"><strong>&minus;4.66pp</strong></td></tr>
-    <tr class="highlight-row"><td><strong>Frequent Disconnection</strong></td><td class="num">6,425</td><td class="num">92.4%</td><td class="num">4,067</td><td class="num red">86.9%</td><td class="num red">&minus;5.5pp</td><td class="num neg"><strong>&minus;2.72pp</strong></td></tr>
-    <tr class="highlight-row"><td><strong>Slow Speed / Range Issues</strong></td><td class="num">2,570</td><td class="num">91.8%</td><td class="num">1,464</td><td class="num red">85.5%</td><td class="num red">&minus;6.3pp</td><td class="num neg"><strong>&minus;1.34pp</strong></td></tr>
-    <tr><td>Internet Supply Down (ISD) &mdash; volume grew</td><td class="num">46,513</td><td class="num">76.7%</td><td class="num">44,872</td><td class="num">73.4%</td><td class="num">&minus;3.3pp</td><td class="num pos">+3.45pp</td></tr>
-    <tr><td>All other Px sub-types (combined)</td><td class="num">1,213</td><td class="num">&mdash;</td><td class="num">1,211</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">~&minus;0.07pp</td></tr>
+    <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Weighted Contribution</th><th class="num">Recovery Opportunity</th></tr>
+    <tr class="highlight-row"><td><strong>Internet Supply Down (ISD)</strong></td><td class="num">46,513</td><td class="num">76.7%</td><td class="num">44,872</td><td class="num red">73.4%</td><td class="num red">&minus;3.3pp</td><td class="num pos">+3.45pp <span class="muted">(vol &uarr;)</span></td><td class="num neg"><strong>~1,481 tickets</strong></td></tr>
+    <tr class="highlight-row"><td><strong>Recharge done but internet not working (RDNI)</strong></td><td class="num">11,402</td><td class="num">81.4%</td><td class="num">7,383</td><td class="num red">71.6%</td><td class="num red"><strong>&minus;9.8pp</strong></td><td class="num neg">&minus;4.66pp</td><td class="num neg"><strong>~724 tickets</strong></td></tr>
+    <tr class="highlight-row"><td><strong>Frequent Disconnection</strong></td><td class="num">6,425</td><td class="num">92.4%</td><td class="num">4,067</td><td class="num red">86.9%</td><td class="num red">&minus;5.5pp</td><td class="num neg">&minus;2.72pp</td><td class="num neg">~224 tickets</td></tr>
+    <tr class="highlight-row"><td><strong>Slow Speed / Range Issues</strong></td><td class="num">2,570</td><td class="num">91.8%</td><td class="num">1,464</td><td class="num red">85.5%</td><td class="num red">&minus;6.3pp</td><td class="num neg">&minus;1.34pp</td><td class="num neg">~92 tickets</td></tr>
+    <tr><td>All other Px sub-types (combined)</td><td class="num">1,213</td><td class="num">&mdash;</td><td class="num">1,211</td><td class="num">&mdash;</td><td class="num">&mdash;</td><td class="num">~&minus;0.07pp</td><td class="num">~negligible</td></tr>
   </table>
 
+  <div class="callout-red callout">
+    <strong>All four connectivity sub-types are genuinely degraded.</strong> Earlier we only highlighted three (RDNI, FD, SS) because ISD's weighted contribution was positive &mdash; but that was purely volume-share growth. Its rate also dropped &minus;3.3pp. By recovery opportunity (the absolute number of fixable breaches), <strong>ISD is actually the biggest lever (~1,481 tickets)</strong> &mdash; bigger than RDNI alone.
+  </div>
+
   <div class="callout">
-    <strong>Three sub-types drive 87% of the Px drop</strong> &mdash; all connectivity/internet-quality issues. From the customer's perspective these are the same kind of problem: "my internet isn't working properly." From a TAT-rule perspective they're split across Service (RDNI) and Others (FD, SS), but they should be investigated together.
+    <strong>From the customer's perspective, all four are the same problem:</strong> "my internet isn't working properly." TAT rules split them across Service (ISD + RDNI) and Others (FD + SS), but the partner resolution work is the same kind of field operation. Investigate together.
   </div>
 
   <h3>What to investigate</h3>
   <ul>
-    <li><strong>RDNI lifecycle</strong>: Why does "recharge done but internet not working" now take longer? Is it auto-created post-recharge? Check the recharge &rarr; activation &rarr; router sync flow for failure points.</li>
+    <li><strong>ISD (biggest recovery lever)</strong>: Volume is stable but rate has drifted down &minus;3.3pp. Is field response time slowing? Capacity mismatch at peak hours? Technician availability post-Feb?</li>
+    <li><strong>RDNI lifecycle (sharpest rate drop)</strong>: Why does "recharge done but internet not working" now take longer? Is it auto-created post-recharge? Check the recharge &rarr; activation &rarr; router sync flow for failure points.</li>
     <li><strong>Partner cohort effect</strong>: Earlier analysis showed small partners (20&ndash;99 Dec tickets) had the largest rate drop (&minus;8.8pp). Is this a capacity/training issue concentrated in that segment?</li>
-    <li><strong>Connectivity quality</strong>: Frequent Disconnection and Slow Speed are degraded-experience tickets (not hard outages). Cross-reference with router uptime / ping flap data from SQ-CSP dashboards.</li>
+    <li><strong>Connectivity quality (FD &amp; SS)</strong>: These are degraded-experience tickets (not hard outages). Cross-reference with router uptime / ping flap data from SQ-CSP dashboards.</li>
   </ul>
 </div>
 
@@ -292,9 +308,10 @@
   <div class="tree-grid">
     <div class="tree-card partner">
       <h4><span class="tag tag-orange">Tree 1</span> Partner Queue (Px)</h4>
-      <p style="font-size:13px;"><strong>Focus:</strong> 3 connectivity sub-types &mdash; RDNI, Frequent Disconnection, Slow Speed.</p>
+      <p style="font-size:13px;"><strong>Focus:</strong> 4 connectivity sub-types &mdash; ISD, RDNI, Frequent Disconnection, Slow Speed. All have real rate drops.</p>
       <ul style="font-size:13px; margin-left:16px; margin-top:6px;">
-        <li>Lifecycle drill on RDNI (biggest contributor)</li>
+        <li>ISD &mdash; biggest recovery lever by volume</li>
+        <li>RDNI &mdash; sharpest rate drop, lifecycle drill</li>
         <li>Cross-cut with partner cohort (small partners)</li>
         <li>Correlate with router uptime / ping flap</li>
       </ul>
