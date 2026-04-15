@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>TAT Compliance RCA</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f5f5f5; color: #1a1a1a; line-height: 1.6; }
@@ -240,41 +241,109 @@
     <li><strong>Jan 27</strong> &mdash; first spike. Breach rate jumped from ~1.5% to 10.1% on a single day. 7-day avg began climbing.</li>
     <li><strong>Feb 4&ndash;6</strong> &mdash; major break. Three consecutive days hit 15.8%, 14.2%, <strong>32.1%</strong> breach rate. A second wave Feb 10&ndash;11 peaked at 25.9% and 30.8%. System never recovered &mdash; settled at 20&ndash;30% as the new normal.</li>
   </ul>
-  <p style="font-size:13px; margin-bottom:8px;">Daily Cx breach data around the inflection:</p>
 
-  <table>
-    <tr><th>Date</th><th class="num">Created</th><th class="num">Within TAT</th><th class="num">Breached</th><th class="num">Breach %</th></tr>
-    <tr><td>Jan 20 (Tue)</td><td class="num">323</td><td class="num">317</td><td class="num">6</td><td class="num">1.9%</td></tr>
-    <tr><td>Jan 21</td><td class="num">292</td><td class="num">285</td><td class="num">7</td><td class="num">2.4%</td></tr>
-    <tr><td>Jan 22</td><td class="num">261</td><td class="num">257</td><td class="num">4</td><td class="num">1.5%</td></tr>
-    <tr><td>Jan 23</td><td class="num">306</td><td class="num">302</td><td class="num">4</td><td class="num">1.3%</td></tr>
-    <tr><td>Jan 24</td><td class="num">203</td><td class="num">199</td><td class="num">4</td><td class="num">2.0%</td></tr>
-    <tr><td>Jan 25</td><td class="num">241</td><td class="num">237</td><td class="num">4</td><td class="num">1.7%</td></tr>
-    <tr><td>Jan 26 (Mon)</td><td class="num">334</td><td class="num">322</td><td class="num">12</td><td class="num">3.6%</td></tr>
-    <tr class="row-focus"><td><strong>Jan 27 🚨</strong></td><td class="num">397</td><td class="num">357</td><td class="num red"><strong>40</strong></td><td class="num red"><strong>10.1%</strong></td></tr>
-    <tr><td>Jan 28</td><td class="num">425</td><td class="num">410</td><td class="num">14</td><td class="num">3.3%</td></tr>
-    <tr><td>Jan 29</td><td class="num">443</td><td class="num">428</td><td class="num">15</td><td class="num">3.4%</td></tr>
-    <tr><td>Jan 30</td><td class="num">444</td><td class="num">423</td><td class="num">21</td><td class="num">4.7%</td></tr>
-    <tr><td>Jan 31</td><td class="num">477</td><td class="num">459</td><td class="num">18</td><td class="num">3.8%</td></tr>
-    <tr><td>Feb 01</td><td class="num">529</td><td class="num">504</td><td class="num">25</td><td class="num">4.7%</td></tr>
-    <tr><td>Feb 02</td><td class="num">489</td><td class="num">459</td><td class="num">30</td><td class="num">6.1%</td></tr>
-    <tr><td>Feb 03</td><td class="num">488</td><td class="num">453</td><td class="num">35</td><td class="num">7.2%</td></tr>
-    <tr class="row-focus"><td><strong>Feb 04 🚨</strong></td><td class="num">551</td><td class="num">464</td><td class="num red"><strong>87</strong></td><td class="num red"><strong>15.8%</strong></td></tr>
-    <tr class="row-focus"><td><strong>Feb 05 🚨</strong></td><td class="num">578</td><td class="num">496</td><td class="num red"><strong>82</strong></td><td class="num red"><strong>14.2%</strong></td></tr>
-    <tr class="row-focus"><td><strong>Feb 06 🚨🚨</strong></td><td class="num">442</td><td class="num">300</td><td class="num red"><strong>142</strong></td><td class="num red"><strong>32.1%</strong></td></tr>
-    <tr><td>Feb 07</td><td class="num">533</td><td class="num">447</td><td class="num red">86</td><td class="num red">16.1%</td></tr>
-    <tr><td>Feb 08</td><td class="num">542</td><td class="num">468</td><td class="num red">74</td><td class="num red">13.7%</td></tr>
-    <tr><td>Feb 09</td><td class="num">578</td><td class="num">521</td><td class="num">57</td><td class="num">9.9%</td></tr>
-    <tr class="row-focus"><td><strong>Feb 10 🚨</strong></td><td class="num">594</td><td class="num">440</td><td class="num red"><strong>154</strong></td><td class="num red"><strong>25.9%</strong></td></tr>
-    <tr class="row-focus"><td><strong>Feb 11 🚨</strong></td><td class="num">621</td><td class="num">430</td><td class="num red"><strong>191</strong></td><td class="num red"><strong>30.8%</strong></td></tr>
-    <tr><td>Feb 12</td><td class="num">525</td><td class="num">475</td><td class="num">50</td><td class="num">9.5%</td></tr>
-    <tr><td>Feb 13</td><td class="num">520</td><td class="num">463</td><td class="num">57</td><td class="num">11.0%</td></tr>
-    <tr><td>Feb 14</td><td class="num">526</td><td class="num">496</td><td class="num">30</td><td class="num">5.7%</td></tr>
-  </table>
+  <p style="font-size:13px; margin:16px 0 6px;"><strong>Daily Cx breach rate &amp; count (Dec 01 &ndash; Mar 12)</strong></p>
+  <div style="position:relative; height:360px; margin-bottom:10px;">
+    <canvas id="cxInflectionChart"></canvas>
+  </div>
 
   <div class="takeaway takeaway-red">
     <strong>Two discrete breaks, not a gradual drift.</strong> Jan 27 and Feb 4-6 are specific event dates. Sharp single-day jumps (1.7% &rarr; 10.1%, then 7.2% &rarr; 32.1%) suggest system/process changes on those dates, not capacity erosion. Daily Cx volume also roughly doubled in the same window (~250/day &rarr; ~500/day) &mdash; a major signal the Cx team should map against releases and policy changes.
   </div>
+
+  <script>
+  (function() {
+    const labels = ['2025-12-01','2025-12-02','2025-12-03','2025-12-04','2025-12-05','2025-12-06','2025-12-07','2025-12-08','2025-12-09','2025-12-10','2025-12-11','2025-12-12','2025-12-13','2025-12-14','2025-12-15','2025-12-16','2025-12-17','2025-12-18','2025-12-19','2025-12-20','2025-12-21','2025-12-22','2025-12-23','2025-12-24','2025-12-25','2025-12-26','2025-12-27','2025-12-28','2025-12-29','2025-12-30','2025-12-31','2026-01-01','2026-01-02','2026-01-03','2026-01-04','2026-01-05','2026-01-06','2026-01-07','2026-01-08','2026-01-09','2026-01-10','2026-01-11','2026-01-12','2026-01-13','2026-01-14','2026-01-15','2026-01-16','2026-01-17','2026-01-18','2026-01-19','2026-01-20','2026-01-21','2026-01-22','2026-01-23','2026-01-24','2026-01-25','2026-01-26','2026-01-27','2026-01-28','2026-01-29','2026-01-30','2026-01-31','2026-02-01','2026-02-02','2026-02-03','2026-02-04','2026-02-05','2026-02-06','2026-02-07','2026-02-08','2026-02-09','2026-02-10','2026-02-11','2026-02-12','2026-02-13','2026-02-14','2026-02-15','2026-02-16','2026-02-17','2026-02-18','2026-02-19','2026-02-20','2026-02-21','2026-02-22','2026-02-23','2026-02-24','2026-02-25','2026-02-26','2026-02-27','2026-02-28','2026-03-01','2026-03-02','2026-03-03','2026-03-04','2026-03-05','2026-03-06','2026-03-07','2026-03-08','2026-03-09','2026-03-10','2026-03-11','2026-03-12'];
+    const breachRate = [1.4,4.3,2.0,3.4,3.0,0.6,2.7,1.5,1.2,4.3,0.6,2.4,3.0,2.0,3.0,4.0,2.6,2.2,2.6,1.3,0.6,3.1,1.8,2.6,1.9,1.0,1.1,0.6,1.2,1.2,1.7,1.2,1.3,0.6,0.8,2.3,3.3,1.9,0.8,0.0,0.8,1.3,2.0,1.8,0.7,1.9,2.4,2.5,1.7,1.6,1.9,2.4,1.5,1.3,2.0,1.7,3.6,10.1,3.3,3.4,4.7,3.8,4.7,6.1,7.2,15.8,14.2,32.1,16.1,13.7,9.9,25.9,30.8,9.5,11.0,5.7,6.5,5.3,3.5,4.3,6.6,14.6,23.1,18.1,16.4,22.4,25.8,22.6,24.1,29.1,42.6,33.3,43.3,34.0,27.9,25.1,24.6,15.9,14.7,16.1,28.7,21.9];
+    const breachCount = [4,13,6,9,8,2,8,4,4,11,2,7,8,5,9,15,11,8,9,5,2,11,6,8,6,3,3,2,4,4,6,4,5,2,3,9,9,8,3,0,3,5,7,6,2,6,7,8,5,5,6,7,4,4,4,4,12,40,14,15,21,18,25,30,35,87,82,142,86,74,57,154,191,50,57,30,19,27,20,22,37,82,92,76,82,109,111,109,84,97,138,94,123,16,64,65,58,36,33,36,66,52];
+
+    const ctx = document.getElementById('cxInflectionChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'line',
+      data: {
+        labels: labels,
+        datasets: [
+          {
+            label: 'Breach Rate %',
+            data: breachRate,
+            borderColor: '#d32f2f',
+            backgroundColor: 'rgba(211,47,47,0.1)',
+            borderWidth: 2,
+            pointRadius: 1.5,
+            pointHoverRadius: 5,
+            tension: 0.2,
+            yAxisID: 'y'
+          },
+          {
+            label: 'Breach Count',
+            data: breachCount,
+            borderColor: '#1976d2',
+            backgroundColor: 'rgba(25,118,210,0.1)',
+            borderWidth: 1.5,
+            borderDash: [3, 3],
+            pointRadius: 1,
+            pointHoverRadius: 4,
+            tension: 0.2,
+            yAxisID: 'y1'
+          }
+        ]
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        interaction: { mode: 'index', intersect: false },
+        plugins: {
+          legend: { position: 'top', labels: { font: { size: 12 } } },
+          tooltip: { callbacks: { title: (items) => items[0].label } },
+          annotation: {
+            annotations: {
+              line1: {
+                type: 'line',
+                xMin: '2026-01-27',
+                xMax: '2026-01-27',
+                borderColor: '#f9a825',
+                borderWidth: 1.5,
+                borderDash: [4, 4],
+                label: { display: true, content: 'Jan 27', position: 'start', backgroundColor: '#f9a825', color: '#fff', font: { size: 10 } }
+              },
+              line2: {
+                type: 'line',
+                xMin: '2026-02-06',
+                xMax: '2026-02-06',
+                borderColor: '#d32f2f',
+                borderWidth: 1.5,
+                borderDash: [4, 4],
+                label: { display: true, content: 'Feb 6', position: 'start', backgroundColor: '#d32f2f', color: '#fff', font: { size: 10 } }
+              }
+            }
+          }
+        },
+        scales: {
+          x: {
+            ticks: { maxRotation: 60, minRotation: 45, font: { size: 9 }, autoSkip: true, maxTicksLimit: 20 },
+            grid: { display: false }
+          },
+          y: {
+            type: 'linear',
+            position: 'left',
+            title: { display: true, text: 'Breach Rate %', font: { size: 11 } },
+            beginAtZero: true,
+            max: 50,
+            ticks: { callback: (v) => v + '%', font: { size: 10 } }
+          },
+          y1: {
+            type: 'linear',
+            position: 'right',
+            title: { display: true, text: 'Breach Count', font: { size: 11 } },
+            beginAtZero: true,
+            grid: { drawOnChartArea: false },
+            ticks: { font: { size: 10 } }
+          }
+        }
+      }
+    });
+  })();
+  </script>
 </div>
 
 <!-- 9. CITY -->
