@@ -233,19 +233,19 @@
   <!-- BRANCH A: INFLECTION POINT -->
   <div class="branch">
     <h3><span class="branch-badge">Branch A</span> Inflection Point &mdash; When Did It Break?</h3>
-    <p style="font-size:13px; margin-bottom:6px;">Cx breach rate was stable at ~2% from Dec through Jan 25. Then two clear breaks:</p>
-    <ul style="font-size:13px; margin-bottom:10px;">
-      <li><strong>Jan 27</strong> &mdash; first spike. Breach rate jumped from ~1.5% to 10.1% on a single day. 7-day avg began climbing.</li>
-      <li><strong>Feb 4&ndash;6</strong> &mdash; major break. Three consecutive days hit 15.8%, 14.2%, <strong>32.1%</strong> breach rate. A second wave Feb 10&ndash;11 peaked at 25.9% and 30.8%. System never recovered &mdash; settled at 20&ndash;30% as the new normal.</li>
-    </ul>
+    <p style="font-size:13px; margin-bottom:6px;">Cx breach rate was stable at ~2% from Dec through Jan 25. Then two distinct inflection events:</p>
 
     <p style="font-size:13px; margin:16px 0 6px;"><strong>Daily Cx breach rate &amp; tickets created (Dec 01 &ndash; Apr 12)</strong></p>
     <div style="position:relative; height:360px; margin-bottom:10px;">
       <canvas id="cxInflectionChart"></canvas>
     </div>
 
-    <div class="takeaway takeaway-red">
-      <strong>Two discrete breaks, not a gradual drift.</strong> Jan 27 and Feb 4-6 are specific event dates. Sharp single-day jumps (1.7% &rarr; 10.1%, then 7.2% &rarr; 32.1%) suggest system/process changes on those dates, not capacity erosion. Daily Cx volume also roughly doubled in the same window (~250/day &rarr; ~500/day). Cx team should map these dates against releases and policy changes.
+    <div class="takeaway takeaway-red" style="margin-top:10px;">
+      <strong>Two inflection events:</strong>
+      <ol style="margin-top:6px; padding-left:18px; font-size:13px;">
+        <li><strong>Feb 4&ndash;6</strong> &mdash; caused by a reopen-flow bug (tickets getting wrongly reopened). Bug was resolved around <strong>Feb 15&ndash;16</strong>, and the visible dip in breach rate matches that fix.</li>
+        <li><strong>Feb 19&ndash;20 onwards</strong> &mdash; breach rate started rising again and has stayed elevated through April. <strong>Not bug-related &mdash; to be discussed with Rashi</strong> to identify what changed.</li>
+      </ol>
     </div>
   </div>
 
