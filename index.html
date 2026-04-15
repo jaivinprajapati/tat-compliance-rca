@@ -52,9 +52,9 @@
   <a href="#split1">3. Service vs Others</a>
   <a href="#service">4. Service Deep Dive</a>
   <a href="#others">5. Others Deep Dive</a>
-  <a href="#split2">6. Px vs Cx</a>
-  <a href="#tree1">7. Tree 1: Partner (Px)</a>
-  <a href="#tree2">8. Tree 2: Wiom CS (Cx)</a>
+  <a href="#split2">6. Three-Segment Split</a>
+  <a href="#tree1">7. Tree 1: Service-Px</a>
+  <a href="#tree2">8. Tree 2: Others-Cx</a>
   <a href="#city">9. City</a>
   <a href="#hypo-reopens">10. Hypothesis: Reopens</a>
   <a href="#next">11. Next Steps</a>
@@ -153,65 +153,56 @@
 
 <!-- 6. PX VS CX -->
 <div class="section" id="split2">
-  <h2><span class="num-badge">6</span>Re-splitting by Resolution Owner: Px vs Cx</h2>
-  <p style="font-size:13px; margin-bottom:6px;">The sharper cut: who resolves the ticket. Every ticket routes to one of two queues:</p>
+  <h2><span class="num-badge">6</span>Three-Segment Split: Who Resolves the Ticket</h2>
+  <p style="font-size:13px; margin-bottom:6px;">Combining ticket type with resolution owner (queue) gives three operationally distinct segments. Queue assignment is near-perfect (sub-types are 99-100% one queue):</p>
   <ul style="font-size:13px; margin-bottom:10px;">
-    <li><span class="tag tag-px">Px</span> Partner/CSP &mdash; infra, connectivity, physical work</li>
-    <li><span class="tag tag-cx">Cx</span> Wiom customer service &mdash; backend, account, payments, app</li>
+    <li><span class="tag tag-px">Service-Px</span> Partner-resolved outage/connectivity (infra, field visit)</li>
+    <li><span class="tag tag-px">Others-Px</span> Partner-resolved non-outage (Frequent Disconnection, Slow Speed, TV/Camera, Router)</li>
+    <li><span class="tag tag-cx">Others-Cx</span> Wiom CS-resolved (backend, account, payments, app)</li>
   </ul>
-  <p style="font-size:13px; margin-bottom:6px;">Queue assignment is near-perfect (sub-types are 99-100% one queue):</p>
 
   <table>
-    <tr><th>Type &times; Queue</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Share of Rate Damage</th></tr>
-    <tr><td>Service &mdash; Px</td><td class="num">52,990</td><td class="num">77.4%</td><td class="num">51,980</td><td class="num red">73.1%</td><td class="num red">&minus;4.3pp</td><td class="num"><strong>52%</strong></td></tr>
-    <tr><td>Others &mdash; Px</td><td class="num">9,304</td><td class="num">91.3%</td><td class="num">6,690</td><td class="num red">83.9%</td><td class="num red">&minus;7.3pp</td><td class="num">11%</td></tr>
-    <tr><td>Others &mdash; Cx</td><td class="num">8,929</td><td class="num">95.6%</td><td class="num">7,747</td><td class="num red">75.1%</td><td class="num red">&minus;20.5pp</td><td class="num"><strong>37%</strong></td></tr>
+    <tr><th>Segment</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th><th class="num">Share of Rate Damage</th></tr>
+    <tr class="row-focus"><td><strong>Service-Px</strong></td><td class="num">52,990</td><td class="num">77.4%</td><td class="num">51,980</td><td class="num red">73.1%</td><td class="num red">&minus;4.3pp</td><td class="num"><strong>52%</strong></td></tr>
+    <tr><td>Others-Px <span class="muted">(deprioritized)</span></td><td class="num">9,304</td><td class="num">91.3%</td><td class="num">6,690</td><td class="num red">83.9%</td><td class="num red">&minus;7.3pp</td><td class="num">11%</td></tr>
+    <tr class="row-focus"><td><strong>Others-Cx</strong></td><td class="num">8,929</td><td class="num">95.6%</td><td class="num">7,747</td><td class="num red">75.1%</td><td class="num red">&minus;20.5pp</td><td class="num"><strong>37%</strong></td></tr>
   </table>
   <p class="note">Share of rate damage = segment's (rate drop &times; recent volume weight), normalized to 100%.</p>
 
-  <h3>Rolled up by queue</h3>
-  <table>
-    <tr><th>Queue</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th></tr>
-    <tr><td><span class="tag tag-px">Px</span> Partner</td><td class="num">62,294</td><td class="num">79.5%</td><td class="num">58,670</td><td class="num red">74.4%</td><td class="num red">&minus;5.1pp</td></tr>
-    <tr><td><span class="tag tag-cx">Cx</span> Wiom CS</td><td class="num">8,929</td><td class="num">95.6%</td><td class="num">7,747</td><td class="num red">75.1%</td><td class="num red">&minus;20.5pp</td></tr>
-  </table>
-
-  <div class="takeaway takeaway-blue"><strong>Two distinct problems with different owners:</strong> Partner-side degrading &minus;5.1pp (connectivity issues, but biggest volume); Wiom CS-side collapsed &minus;20.5pp from near-perfect. Two investigations needed.</div>
+  <div class="takeaway takeaway-blue"><strong>Two priorities for investigation:</strong> Service-Px (52% of rate damage, largest volume bucket with moderate rate drop) and Others-Cx (37% of rate damage, smaller volume but severe rate collapse). Others-Px contributes only 11% &mdash; deprioritized for this RCA.</div>
 </div>
 
-<!-- 7. TREE 1: PARTNER -->
+<!-- 7. TREE 1: SERVICE-PX -->
 <div class="section" id="tree1">
-  <h2><span class="tag tag-px" style="font-size:13px; padding:3px 10px; margin-right:6px;">Tree 1</span>Partner Queue (Px) Deep Dive</h2>
+  <h2><span class="tag tag-px" style="font-size:13px; padding:3px 10px; margin-right:6px;">Tree 1</span>Service-Px Deep Dive (Outage / Connectivity, Partner-resolved)</h2>
   <div class="kpis">
-    <div class="kpi"><div class="v">79.5%</div><div class="l">Dec</div></div>
-    <div class="kpi"><div class="v red">74.4%</div><div class="l">Recent (&minus;5.1pp)</div></div>
-    <div class="kpi"><div class="v">63%</div><div class="l">of rate damage</div></div>
+    <div class="kpi"><div class="v">77.4%</div><div class="l">Dec</div></div>
+    <div class="kpi"><div class="v red">73.1%</div><div class="l">Recent (&minus;4.3pp)</div></div>
+    <div class="kpi"><div class="v">52%</div><div class="l">of rate damage</div></div>
   </div>
 
-  <h3>Px sub-types with rate drop</h3>
+  <h3>Service-Px sub-types (2 types, 99.9% of Service volume)</h3>
   <table>
     <tr><th>Sub-type</th><th class="num">Dec Tickets</th><th class="num">Dec Rate</th><th class="num">Recent Tickets</th><th class="num">Recent Rate</th><th class="num">Rate Drop</th></tr>
-    <tr class="row-focus"><td>Internet Supply Down (ISD) <span class="muted">&mdash; Service</span></td><td class="num">42,237</td><td class="num">76.4%</td><td class="num">44,560</td><td class="num red">73.3%</td><td class="num red">&minus;3.1pp</td></tr>
-    <tr class="row-focus"><td>Recharge done but internet not working (RDNI) <span class="muted">&mdash; Service</span></td><td class="num">10,752</td><td class="num">81.4%</td><td class="num">7,407</td><td class="num red">72.0%</td><td class="num red">&minus;9.4pp</td></tr>
-    <tr class="row-focus"><td>Frequent Disconnection <span class="muted">&mdash; Others</span></td><td class="num">5,868</td><td class="num">92.4%</td><td class="num">4,016</td><td class="num red">87.3%</td><td class="num red">&minus;5.1pp</td></tr>
-    <tr class="row-focus"><td>Slow Speed / Range Issues <span class="muted">&mdash; Others</span></td><td class="num">2,335</td><td class="num">91.7%</td><td class="num">1,464</td><td class="num red">86.0%</td><td class="num red">&minus;5.7pp</td></tr>
-    <tr><td>All other Px sub-types</td><td class="num">1,102</td><td class="num">&mdash;</td><td class="num">1,223</td><td class="num">&mdash;</td><td class="num">minor</td></tr>
+    <tr class="row-focus"><td>Internet Supply Down (ISD)</td><td class="num">42,237</td><td class="num">76.4%</td><td class="num">44,560</td><td class="num red">73.3%</td><td class="num red">&minus;3.1pp</td></tr>
+    <tr class="row-focus"><td>Recharge done but internet not working (RDNI)</td><td class="num">10,752</td><td class="num">81.4%</td><td class="num">7,407</td><td class="num red">72.0%</td><td class="num red">&minus;9.4pp</td></tr>
   </table>
 
-  <div class="takeaway">All 4 connectivity sub-types degraded. From customer's POV, these are the same problem: "my internet isn't working properly." TAT rules split them across Service and Others, but the partner resolution work is the same. Investigate together.</div>
+  <div class="takeaway">ISD is the biggest volume bucket (78% of all tickets) with a modest &minus;3.1pp rate drop &mdash; but that moderate drop on a huge volume is why Service-Px is the largest source of rate damage (52%). RDNI is the sharper rate drop (&minus;9.4pp) and more likely has a diagnosable root cause.</div>
 
   <h3>What to investigate</h3>
   <ul>
     <li><strong>ISD:</strong> Volume stable, rate drifted. Field response time slowing? Technician availability?</li>
     <li><strong>RDNI:</strong> Sharpest rate drop. Check recharge &rarr; activation &rarr; router sync flow.</li>
-    <li><strong>Frequent Disconnection &amp; Slow Speed:</strong> Degraded-experience tickets. Cross-ref router uptime / ping flap.</li>
     <li><strong>Partner cohort:</strong> Small partners (20&ndash;99 Dec tickets) had the biggest rate drop (&minus;8.8pp). Capacity / training issue?</li>
   </ul>
+
+  <p class="note" style="margin-top:10px;"><strong>Others-Px (Frequent Disconnection, Slow Speed, TV/Camera, Router) is deprioritized.</strong> Although it degraded (&minus;7.3pp rate drop), its small volume share means it contributes only 11% of rate damage. Not a focus for this RCA.</p>
 </div>
 
-<!-- 8. TREE 2: WIOM CS -->
+<!-- 8. TREE 2: OTHERS-CX -->
 <div class="section" id="tree2">
-  <h2><span class="tag tag-cx" style="font-size:13px; padding:3px 10px; margin-right:6px;">Tree 2</span>Wiom CS Queue (Cx) Deep Dive</h2>
+  <h2><span class="tag tag-cx" style="font-size:13px; padding:3px 10px; margin-right:6px;">Tree 2</span>Others-Cx Deep Dive (Wiom CS-resolved &mdash; Backend, Account, Payments)</h2>
   <div class="kpis">
     <div class="kpi"><div class="v">95.6%</div><div class="l">Dec</div></div>
     <div class="kpi"><div class="v red">75.1%</div><div class="l">Recent (&minus;20.5pp)</div></div>
@@ -291,15 +282,29 @@
 <!-- 11. NEXT STEPS -->
 <div class="section" id="next">
   <h2><span class="num-badge">11</span>Next Steps</h2>
-  <p style="margin-bottom:10px;">Two parallel investigations:</p>
+  <p style="margin-bottom:10px;">Two parallel investigations on the prioritized segments:</p>
   <table>
-    <tr><th style="width:50%;">Tree 1 &mdash; Partner (Px)</th><th style="width:50%;">Tree 2 &mdash; Wiom CS (Cx)</th></tr>
+    <tr><th style="width:50%;">Tree 1 &mdash; Service-Px (52% of rate damage)</th><th style="width:50%;">Tree 2 &mdash; Others-Cx (37% of rate damage)</th></tr>
     <tr>
-      <td>4 connectivity sub-types: ISD, RDNI, Frequent Disconnection, Slow Speed. Focus on lifecycle stages + partner cohort.</td>
-      <td>Systemic degradation across 10+ sub-types. Focus on capacity, tool/process changes, crowd-out effect.</td>
+      <td>
+        <strong>CSP / Partner-level cuts</strong> to understand partner behaviour:
+        <ul style="font-size:13px; margin-left:16px; margin-top:4px;">
+          <li>Breach rate by partner cohort (size, tenure, city)</li>
+          <li>Identify whether degradation is concentrated or widespread across partners</li>
+          <li>Compare top vs bottom performers</li>
+        </ul>
+      </td>
+      <td>
+        <strong>Three investigation angles:</strong>
+        <ul style="font-size:13px; margin-left:16px; margin-top:4px;">
+          <li><strong>Inflection point</strong> &mdash; map Jan 27 and Feb 4-6 breaks to app releases, policy changes, tool changes</li>
+          <li><strong>Ticket-level cuts</strong> &mdash; identify which sub-types (e.g. Invoice, Change Plan, Unable to Pay) drive the long tail</li>
+          <li><strong>Agent-level performance</strong> &mdash; tickets-per-agent, breach rate by agent, distribution of workload</li>
+        </ul>
+      </td>
     </tr>
     <tr>
-      <td class="muted"><em>Owner: Partner Ops + Infra</em></td>
+      <td class="muted"><em>Owner: Partner Ops</em></td>
       <td class="muted"><em>Owner: Wiom CS / Support Ops</em></td>
     </tr>
   </table>
